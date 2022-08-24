@@ -7,10 +7,15 @@
 }
 
 :root {
+  --border-radius: 1.2rem;
+
   --t1-background-color: #3A4764;
   --t1-text-color-1: #FFFFFF;
   --t1-keypad-background-color: #232C43;
   --t1-screen-background-color: #182034;
+  --t1-button-color-1: #EAE3DC;
+  --t1-button-color-2: #D03F2F;
+  --t1-button-shadow-1: #B4A597;
 }
 
 html {
@@ -22,16 +27,15 @@ html {
 body {
   font-family: "League Spartan", sans-serif;
   font-size: 3.2rem;
+  font-weight: 700;
   background-color: var(--t1-background-color);
-  height: 100vh;
-  width: 100vw;
   display: grid;
-  place-items: center;
+  place-content: center;
 }
 
 .container {
-  //max-width: 60rem;
-  width: 60rem;
+  max-width: 60rem;
+  padding: 1rem;
 }
 
 header {
@@ -63,12 +67,13 @@ header {
   display: flex;
   justify-content: space-between;
   font-size: 1.6rem;
+  font-weight: 400;
   padding: 0 1rem;
 }
 
 .switch {
   border-radius: 50%;
-  background-color: red;
+  background-color: var(--t1-button-color-2);
   height: 1.5rem;
   width: 1.5rem;
 
@@ -86,6 +91,44 @@ header {
   color: var(--t1-text-color-1);
   background-color: var(--t1-screen-background-color);
   display: flex;
+  gap: 2rem;
   flex-direction: column;
   align-items: flex-end;
+  padding: 2rem 3rem;
+  border-radius: var(--border-radius);
+
+  &--previous {
+    margin-right: 2rem;
+    color: #CCC;
+    font-size: 2.4rem;
+    font-weight: 100;
+  }
+
+  &--active {
+    font-size: 7.2rem;
+  }
+}
+
+main {
+  width: 100%;
+}
+
+.keypad {
+  width: 100%;
+  margin-top: 2rem;
+  border-radius: var(--border-radius);
+  background-color: var(--t1-keypad-background-color);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(5rem, 1fr));
+  grid-template-rows: repeat(4, 5rem);
+  padding: 3rem;
+  gap: 2rem;
+
+  &__button {
+    border-radius: var(--border-radius);
+    background-color: var(--t1-button-color-1);
+    box-shadow: 0 4px 0 var(--t1-button-shadow-1);
+    display: grid;
+    place-items: center;
+  }
 }
