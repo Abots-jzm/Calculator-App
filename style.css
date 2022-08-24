@@ -8,13 +8,21 @@
 
 :root {
   --border-radius: 1.2rem;
-  --t1-background-color: #3A4764;
-  --t1-text-color-1: #FFFFFF;
-  --t1-keypad-background-color: #232C43;
+  --t1-background-color: #3a4764;
+  --t1-text-color-1: #ffffff;
+  --t1-text-color-2: #444b5a;
+  --t1-text-color-3: #ffffff;
+  --t1-keypad-background-color: #232c43;
   --t1-screen-background-color: #182034;
-  --t1-button-color-1: #EAE3DC;
-  --t1-button-color-2: #D03F2F;
-  --t1-button-shadow-1: #B4A597;
+  --t1-button-color-1: #eae3dc;
+  --t1-button-color-2: #637097;
+  --t1-button-color-3: #d03f2f;
+  --t1-button-hover-1: hsl(30, 25%, 99%);
+  --t1-button-hover-2: hsl(225, 21%, 59%);
+  --t1-button-hover-3: hsl(6, 63%, 60%);
+  --t1-button-shadow-1: #b4a597;
+  --t1-button-shadow-2: #404e72;
+  --t1-button-shadow-3: #93261a;
 }
 
 html {
@@ -28,12 +36,14 @@ body {
   font-size: 3.2rem;
   font-weight: 700;
   background-color: var(--t1-background-color);
-  display: grid;
-  place-content: center;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .container {
-  max-width: 60rem;
+  flex: 0 1 60rem;
   padding: 1rem;
 }
 
@@ -71,7 +81,7 @@ header {
 
 .switch {
   border-radius: 50%;
-  background-color: var(--t1-button-color-2);
+  background-color: var(--t1-button-color-3);
   height: 1.5rem;
   width: 1.5rem;
 }
@@ -81,6 +91,9 @@ header {
   grid-area: switch;
   border-radius: 100rem;
   align-self: end;
+}
+.switch--background:active .switch {
+  background-color: var(--t1-button-hover-3);
 }
 
 .display {
@@ -96,16 +109,23 @@ header {
 }
 .display--previous {
   margin-right: 2rem;
-  color: #CCC;
+  color: #ccc;
   font-size: 2.4rem;
   font-weight: 100;
+}
+@media only screen and (max-width: 500px) {
+  .display--previous {
+    margin-right: 1rem;
+    font-size: 1.8rem;
+  }
 }
 .display--active {
   font-size: 7.2rem;
 }
-
-main {
-  width: 100%;
+@media only screen and (max-width: 500px) {
+  .display--active {
+    font-size: 4.8rem;
+  }
 }
 
 .keypad {
@@ -115,16 +135,64 @@ main {
   background-color: var(--t1-keypad-background-color);
   display: grid;
   grid-template-columns: repeat(4, minmax(5rem, 1fr));
-  grid-template-rows: repeat(4, 5rem);
+  grid-template-rows: repeat(5, 6rem);
   padding: 3rem;
   gap: 2rem;
+  font-size: 4rem;
+}
+@media only screen and (max-width: 500px) {
+  .keypad {
+    gap: 1.5rem;
+    font-size: 3.2rem;
+  }
 }
 .keypad__button {
-  border-radius: var(--border-radius);
+  border-radius: 4px;
+  display: grid;
+  place-content: center;
+  padding-top: 0.5rem;
+  cursor: pointer;
+}
+@media only screen and (max-width: 600px) {
+  .keypad__button {
+    cursor: none;
+  }
+}
+.keypad__button--1 {
   background-color: var(--t1-button-color-1);
   box-shadow: 0 4px 0 var(--t1-button-shadow-1);
-  display: grid;
-  place-items: center;
+  color: var(--t1-text-color-2);
+}
+.keypad__button--1:active {
+  background-color: var(--t1-button-hover-1);
+}
+.keypad__button--2 {
+  background-color: var(--t1-button-color-2);
+  box-shadow: 0 4px 0 var(--t1-button-shadow-2);
+  color: var(--t1-text-color-1);
+}
+.keypad__button--2:active {
+  background-color: var(--t1-button-hover-2);
+}
+.keypad__button--3 {
+  background-color: var(--t1-button-color-3);
+  box-shadow: 0 4px 0 var(--t1-button-shadow-3);
+  color: var(--t1-text-color-3);
+}
+.keypad__button--3:active {
+  background-color: var(--t1-button-hover-3);
+}
+.keypad__button--2, .keypad__button--3 {
+  font-size: 2.4rem;
+}
+@media only screen and (max-width: 500px) {
+  .keypad__button--2, .keypad__button--3 {
+    font-size: 1.8rem;
+  }
+}
+
+.keypad__button.double {
+  grid-column: span 2;
 }
 
 /*# sourceMappingURL=style.css.map */

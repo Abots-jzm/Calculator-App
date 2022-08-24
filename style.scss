@@ -1,134 +1,207 @@
 *,
 *::before,
 *::after {
-  padding: 0;
-  margin: 0;
-  box-sizing: inherit;
+	padding: 0;
+	margin: 0;
+	box-sizing: inherit;
 }
 
 :root {
-  --border-radius: 1.2rem;
+	--border-radius: 1.2rem;
 
-  --t1-background-color: #3A4764;
-  --t1-text-color-1: #FFFFFF;
-  --t1-keypad-background-color: #232C43;
-  --t1-screen-background-color: #182034;
-  --t1-button-color-1: #EAE3DC;
-  --t1-button-color-2: #D03F2F;
-  --t1-button-shadow-1: #B4A597;
+	--t1-background-color: #3a4764;
+	--t1-text-color-1: #ffffff;
+	--t1-text-color-2: #444b5a;
+	--t1-text-color-3: #ffffff;
+	--t1-keypad-background-color: #232c43;
+	--t1-screen-background-color: #182034;
+	--t1-button-color-1: #eae3dc;
+	--t1-button-color-2: #637097;
+	--t1-button-color-3: #d03f2f;
+	--t1-button-hover-1: hsl(30, 25%, 99%);
+	--t1-button-hover-2: hsl(225, 21%, 59%);
+	--t1-button-hover-3: hsl(6, 63%, 60%);
+	--t1-button-shadow-1: #b4a597;
+	--t1-button-shadow-2: #404e72;
+	--t1-button-shadow-3: #93261a;
 }
 
 html {
-  box-sizing: border-box;
-  font-size: 62.5%;
-  scroll-behavior: smooth;
+	box-sizing: border-box;
+	font-size: 62.5%;
+	scroll-behavior: smooth;
 }
 
 body {
-  font-family: "League Spartan", sans-serif;
-  font-size: 3.2rem;
-  font-weight: 700;
-  background-color: var(--t1-background-color);
-  display: grid;
-  place-content: center;
+	font-family: "League Spartan", sans-serif;
+	font-size: 3.2rem;
+	font-weight: 700;
+	background-color: var(--t1-background-color);
+	height: 100vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 .container {
-  max-width: 60rem;
-  padding: 1rem;
+	flex: 0 1 60rem;
+	padding: 1rem;
 }
 
 header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  color: var(--t1-text-color-1);
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	color: var(--t1-text-color-1);
 }
 
 .switcher {
-  font-size: 1.2rem;
-  display: grid;
-  grid-template-columns: 2fr 3fr;
-  grid-template-areas: ". numbers"
-                       "theme switch";
-  row-gap: 1rem;
-  column-gap: 3rem;
+	font-size: 1.2rem;
+	display: grid;
+	grid-template-columns: 2fr 3fr;
+	grid-template-areas:
+		". numbers"
+		"theme switch";
+	row-gap: 1rem;
+	column-gap: 3rem;
 }
 
 .theme {
-  letter-spacing: 0.2rem;
-  grid-area: theme;
-  align-self: end;
-  padding-bottom: .6rem;
+	letter-spacing: 0.2rem;
+	grid-area: theme;
+	align-self: end;
+	padding-bottom: 0.6rem;
 }
 
 .numbers {
-  grid-area: numbers;
-  display: flex;
-  justify-content: space-between;
-  font-size: 1.6rem;
-  font-weight: 400;
-  padding: 0 1rem;
+	grid-area: numbers;
+	display: flex;
+	justify-content: space-between;
+	font-size: 1.6rem;
+	font-weight: 400;
+	padding: 0 1rem;
 }
 
 .switch {
-  border-radius: 50%;
-  background-color: var(--t1-button-color-2);
-  height: 1.5rem;
-  width: 1.5rem;
+	border-radius: 50%;
+	background-color: var(--t1-button-color-3);
+	height: 1.5rem;
+	width: 1.5rem;
 
-  &--background {
-    background-color: var(--t1-keypad-background-color);
-    padding: .5rem;
-    grid-area: switch;
-    border-radius: 100rem;
-    align-self: end;
-  }
+	&--background {
+		background-color: var(--t1-keypad-background-color);
+		padding: 0.5rem;
+		grid-area: switch;
+		border-radius: 100rem;
+		align-self: end;
+
+		&:active .switch {
+			background-color: var(--t1-button-hover-3);
+		}
+	}
 }
 
 .display {
-  margin-top: 3rem;
-  color: var(--t1-text-color-1);
-  background-color: var(--t1-screen-background-color);
-  display: flex;
-  gap: 2rem;
-  flex-direction: column;
-  align-items: flex-end;
-  padding: 2rem 3rem;
-  border-radius: var(--border-radius);
+	margin-top: 3rem;
+	color: var(--t1-text-color-1);
+	background-color: var(--t1-screen-background-color);
+	display: flex;
+	gap: 2rem;
+	flex-direction: column;
+	align-items: flex-end;
+	padding: 2rem 3rem;
+	border-radius: var(--border-radius);
 
-  &--previous {
-    margin-right: 2rem;
-    color: #CCC;
-    font-size: 2.4rem;
-    font-weight: 100;
-  }
+	&--previous {
+		margin-right: 2rem;
+		color: #ccc;
+		font-size: 2.4rem;
+		font-weight: 100;
 
-  &--active {
-    font-size: 7.2rem;
-  }
-}
+		@media only screen and (max-width: 500px) {
+			margin-right: 1rem;
+			font-size: 1.8rem;
+		}
+	}
 
-main {
-  width: 100%;
+	&--active {
+		font-size: 7.2rem;
+
+		@media only screen and (max-width: 500px) {
+			font-size: 4.8rem;
+		}
+	}
 }
 
 .keypad {
-  width: 100%;
-  margin-top: 2rem;
-  border-radius: var(--border-radius);
-  background-color: var(--t1-keypad-background-color);
-  display: grid;
-  grid-template-columns: repeat(4, minmax(5rem, 1fr));
-  grid-template-rows: repeat(4, 5rem);
-  padding: 3rem;
-  gap: 2rem;
+	width: 100%;
+	margin-top: 2rem;
+	border-radius: var(--border-radius);
+	background-color: var(--t1-keypad-background-color);
+	display: grid;
+	grid-template-columns: repeat(4, minmax(5rem, 1fr));
+	grid-template-rows: repeat(5, 6rem);
+	padding: 3rem;
+	gap: 2rem;
+	font-size: 4rem;
 
-  &__button {
-    border-radius: var(--border-radius);
-    background-color: var(--t1-button-color-1);
-    box-shadow: 0 4px 0 var(--t1-button-shadow-1);
-    display: grid;
-    place-items: center;
-  }
+	@media only screen and (max-width: 500px) {
+		gap: 1.5rem;
+		font-size: 3.2rem;
+	}
+
+	&__button {
+		border-radius: 4px;
+		display: grid;
+		place-content: center;
+		padding-top: 0.5rem;
+		cursor: pointer;
+
+		@media only screen and (max-width: 600px) {
+			cursor: none;
+		}
+
+		&--1 {
+			background-color: var(--t1-button-color-1);
+			box-shadow: 0 4px 0 var(--t1-button-shadow-1);
+			color: var(--t1-text-color-2);
+
+			&:active {
+				background-color: var(--t1-button-hover-1);
+			}
+		}
+
+		&--2 {
+			background-color: var(--t1-button-color-2);
+			box-shadow: 0 4px 0 var(--t1-button-shadow-2);
+			color: var(--t1-text-color-1);
+
+			&:active {
+				background-color: var(--t1-button-hover-2);
+			}
+		}
+
+		&--3 {
+			background-color: var(--t1-button-color-3);
+			box-shadow: 0 4px 0 var(--t1-button-shadow-3);
+			color: var(--t1-text-color-3);
+
+			&:active {
+				background-color: var(--t1-button-hover-3);
+			}
+		}
+
+		&--2,
+		&--3 {
+			font-size: 2.4rem;
+
+			@media only screen and (max-width: 500px) {
+				font-size: 1.8rem;
+			}
+		}
+	}
+}
+
+.keypad__button.double {
+	grid-column: span 2;
 }
