@@ -23,18 +23,34 @@ function moveSwitch(theme) {
 	}
 }
 
+function initTheme() {
+	const theme = localStorage.getItem("theme");
+	if (theme) {
+		setTheme(theme);
+		currentTheme = +theme[1];
+	} else {
+		setTheme("t1");
+		currentTheme = 1;
+	}
+	moveSwitch(currentTheme);
+}
+
 //LISTENERS
-themeSwitcher.addEventListener("click", function (e) {
+themeSwitcher.addEventListener("click", function () {
 	currentTheme++;
 	if (currentTheme > 3) currentTheme = 1;
 
 	moveSwitch(currentTheme);
-	setTheme(`t${currentTheme}`);
+
+	const themeStr = `t${currentTheme}`;
+	setTheme(themeStr);
+
+	localStorage.setItem("theme", themeStr);
 });
 
 //START
 function init() {
-	setTheme("t1");
+	initTheme();
 }
 
 init();
