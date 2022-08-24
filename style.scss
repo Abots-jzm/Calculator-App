@@ -4,26 +4,71 @@
 	padding: 0;
 	margin: 0;
 	box-sizing: inherit;
+	transition: all 0.5s;
 }
 
 :root {
 	--border-radius: 1.2rem;
+}
 
-	--t1-background-color: #3a4764;
-	--t1-text-color-1: #ffffff;
-	--t1-text-color-2: #444b5a;
-	--t1-text-color-3: #ffffff;
-	--t1-keypad-background-color: #232c43;
-	--t1-screen-background-color: #182034;
-	--t1-button-color-1: #eae3dc;
-	--t1-button-color-2: #637097;
-	--t1-button-color-3: #d03f2f;
-	--t1-button-hover-1: hsl(30, 25%, 99%);
-	--t1-button-hover-2: hsl(225, 21%, 59%);
-	--t1-button-hover-3: hsl(6, 63%, 60%);
-	--t1-button-shadow-1: #b4a597;
-	--t1-button-shadow-2: #404e72;
-	--t1-button-shadow-3: #93261a;
+:root.t1 {
+	--background-color: #3a4764;
+	--keypad-background-color: #232c43;
+	--screen-background-color: #182034;
+	--button-color-1: #637097;
+	--button-color-2: #d03f2f;
+	--button-color-3: #eae3dc;
+	--button-shadow-1: #404e72;
+	--button-shadow-2: #93261a;
+	--button-shadow-3: #b4a597;
+	--button-hover-1: #808bac;
+	--button-hover-2: #d96659;
+	--button-hover-3: #fdfcfc;
+	--text-color-1: #ffffff;
+	--text-color-2: #444b5a;
+	--text-color-3: #ffffff;
+	--display-text-color: #ffffff;
+	--previous-answer-color: #ccc;
+}
+
+:root.t2 {
+	--background-color: #e6e6e6;
+	--keypad-background-color: #d1cccc;
+	--screen-background-color: #ededed;
+	--button-color-1: #377f86;
+	--button-color-2: #ca5502;
+	--button-color-3: #e5e4e1;
+	--button-shadow-1: #1b5f65;
+	--button-shadow-2: #893901;
+	--button-shadow-3: #a69d91;
+	--button-hover-1: #46a2aa;
+	--button-hover-2: #fc6b03;
+	--button-hover-3: #fdfdfc;
+	--text-color-1: #ffffff;
+	--text-color-2: #35352c;
+	--text-color-3: #ffffff;
+	--display-text-color: #35352c;
+	--previous-answer-color: #888;
+}
+
+:root.t3 {
+	--background-color: #160628;
+	--keypad-background-color: #1d0934;
+	--screen-background-color: #1d0934;
+	--button-color-1: #58077d;
+	--button-color-2: #00e0d1;
+	--button-color-3: #341c4f;
+	--button-shadow-1: #bc15f4;
+	--button-shadow-2: #6cf9f2;
+	--button-shadow-3: #871c9c;
+	--button-hover-1: #7a0aae;
+	--button-hover-2: #14ffef;
+	--button-hover-3: #4d2a74;
+	--text-color-1: #ffffff;
+	--text-color-2: #ffe53d;
+	--text-color-3: #1b2428;
+	--display-text-color: #ffe53d;
+	--previous-answer-color: #a38d00;
 }
 
 html {
@@ -36,7 +81,7 @@ body {
 	font-family: "League Spartan", sans-serif;
 	font-size: 3.2rem;
 	font-weight: 700;
-	background-color: var(--t1-background-color);
+	background-color: var(--background-color);
 	height: 100vh;
 	display: flex;
 	justify-content: center;
@@ -52,7 +97,7 @@ header {
 	display: flex;
 	justify-content: space-between;
 	align-items: flex-end;
-	color: var(--t1-text-color-1);
+	color: var(--display-text-color);
 }
 
 .switcher {
@@ -84,27 +129,29 @@ header {
 
 .switch {
 	border-radius: 50%;
-	background-color: var(--t1-button-color-3);
+	background-color: var(--button-color-2);
 	height: 1.5rem;
 	width: 1.5rem;
 
+	transition: all 1s;
+
 	&--background {
-		background-color: var(--t1-keypad-background-color);
+		background-color: var(--keypad-background-color);
 		padding: 0.5rem;
 		grid-area: switch;
 		border-radius: 100rem;
 		align-self: end;
 
 		&:active .switch {
-			background-color: var(--t1-button-hover-3);
+			background-color: var(--button-hover-2);
 		}
 	}
 }
 
 .display {
 	margin-top: 3rem;
-	color: var(--t1-text-color-1);
-	background-color: var(--t1-screen-background-color);
+	color: var(--display-text-color);
+	background-color: var(--screen-background-color);
 	display: flex;
 	gap: 2rem;
 	flex-direction: column;
@@ -114,7 +161,7 @@ header {
 
 	&--previous {
 		margin-right: 2rem;
-		color: #ccc;
+		color: var(--previous-answer-color);
 		font-size: 2.4rem;
 		font-weight: 100;
 
@@ -137,7 +184,7 @@ header {
 	width: 100%;
 	margin-top: 2rem;
 	border-radius: var(--border-radius);
-	background-color: var(--t1-keypad-background-color);
+	background-color: var(--keypad-background-color);
 	display: grid;
 	grid-template-columns: repeat(4, minmax(5rem, 1fr));
 	grid-template-rows: repeat(5, 6rem);
@@ -151,43 +198,45 @@ header {
 	}
 
 	&__button {
-		border-radius: 4px;
+		border-radius: 6px;
 		display: grid;
 		place-content: center;
 		padding-top: 0.5rem;
 		cursor: pointer;
+
+		transition: all 0.2s;
 
 		@media only screen and (max-width: 600px) {
 			cursor: none;
 		}
 
 		&--1 {
-			background-color: var(--t1-button-color-1);
-			box-shadow: 0 4px 0 var(--t1-button-shadow-1);
-			color: var(--t1-text-color-2);
+			background-color: var(--button-color-3);
+			box-shadow: 0 4px 0 var(--button-shadow-3);
+			color: var(--text-color-2);
 
 			&:active {
-				background-color: var(--t1-button-hover-1);
+				background-color: var(--button-hover-3);
 			}
 		}
 
 		&--2 {
-			background-color: var(--t1-button-color-2);
-			box-shadow: 0 4px 0 var(--t1-button-shadow-2);
-			color: var(--t1-text-color-1);
+			background-color: var(--button-color-1);
+			box-shadow: 0 4px 0 var(--button-shadow-1);
+			color: var(--text-color-1);
 
 			&:active {
-				background-color: var(--t1-button-hover-2);
+				background-color: var(--button-hover-1);
 			}
 		}
 
 		&--3 {
-			background-color: var(--t1-button-color-3);
-			box-shadow: 0 4px 0 var(--t1-button-shadow-3);
-			color: var(--t1-text-color-3);
+			background-color: var(--button-color-2);
+			box-shadow: 0 4px 0 var(--button-shadow-2);
+			color: var(--text-color-3);
 
 			&:active {
-				background-color: var(--t1-button-hover-3);
+				background-color: var(--button-hover-2);
 			}
 		}
 
@@ -204,4 +253,12 @@ header {
 
 .keypad__button.double {
 	grid-column: span 2;
+}
+
+.middle {
+	margin-left: 2rem;
+}
+
+.right {
+	margin-left: 4rem;
 }
