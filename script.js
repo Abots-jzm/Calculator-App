@@ -10,7 +10,6 @@ const previousDisplayed = document.querySelector(".display--previous");
 const currentDisplayed = document.querySelector(".display--active");
 
 let previousOperation;
-let canDelete = true;
 let storedNumber;
 let currentTheme = 1;
 let numberToBeDisplayed = "";
@@ -48,8 +47,7 @@ function handleThemeSwitching() {
 }
 
 function handleDelete() {
-	if (canDelete) numberToBeDisplayed = numberToBeDisplayed.slice(0, -1);
-	else numberToBeDisplayed = "0";
+	numberToBeDisplayed = numberToBeDisplayed.slice(0, -1);
 }
 
 function handleOperation(operation) {
@@ -89,13 +87,11 @@ function handleEquals() {
 	storedNumber = result;
 	numberToBeDisplayed = result + "";
 	previousOperation = null;
-	canDelete = false;
 }
 
 function reset() {
 	console.log("shit");
 	previousOperation = null;
-	canDelete = true;
 	storedNumber = null;
 	numberToBeDisplayed = "";
 	previousToBeDisplayed = emptySpace;
@@ -122,7 +118,6 @@ function handleButtonClick(e) {
 	if (buttonClicked === "." && numberToBeDisplayed.includes(".")) return;
 
 	numberToBeDisplayed += buttonClicked;
-	canDelete = true;
 }
 
 function initTheme() {
@@ -166,6 +161,8 @@ keypad.addEventListener("click", function (e) {
 	else handleDisplayFormatting();
 
 	handlePreviousFormatting();
+
+	if (e.target.textContent === "=") numberToBeDisplayed = "";
 });
 
 //START
