@@ -11,11 +11,13 @@ const previousDisplayed = document.querySelector(".display--previous");
 const currentDisplayed = document.querySelector(".display--active");
 
 let previousOperation;
-let storedNumber;
+let storedNumber = 0;
 let currentTheme = 1;
 let numberToBeDisplayed = "0";
 let previousToBeDisplayed = previousDisplayed.textContent;
+let backupNumber = 0;
 const emptySpace = previousToBeDisplayed;
+let previousKey;
 
 //FUNCTIONS
 function setTheme(theme) {
@@ -53,8 +55,8 @@ function handleDelete() {
 
 function handleOperation(operation) {
 	if (!previousToBeDisplayed.trim() || !previousOperation) {
-		storedNumber = +numberToBeDisplayed;
-		previousToBeDisplayed = `${numberToBeDisplayed} ${operation}`;
+		storedNumber = +numberToBeDisplayed || backupNumber;
+		previousToBeDisplayed = `${numberToBeDisplayed || backupNumber} ${operation}`;
 		numberToBeDisplayed = "";
 		previousOperation = operation;
 		return;
@@ -86,16 +88,18 @@ function handleEquals() {
 	const result = getResult();
 	previousToBeDisplayed = `${storedNumber} ${previousOperation} ${numberToBeDisplayed} =`;
 	storedNumber = result;
+	backupNumber = result;
 	numberToBeDisplayed = result + "";
 	previousOperation = null;
 }
 
 function reset() {
-	console.log("shit");
 	previousOperation = null;
-	storedNumber = null;
+	storedNumber = 0;
 	numberToBeDisplayed = "0";
 	previousToBeDisplayed = emptySpace;
+	backupNumber = 0;
+	previousKey = null;
 }
 
 function handleButtonClick(buttonClicked) {
@@ -115,6 +119,12 @@ function handleButtonClick(buttonClicked) {
 	}
 
 	if (buttonClicked === "." && numberToBeDisplayed.includes(".")) return;
+
+	if (!numberToBeDisplayed) {
+		previousToBeDisplayed = emptySpace;
+		storedNumber = 0;
+		previousOperation = null;
+	}
 
 	numberToBeDisplayed += buttonClicked;
 }
@@ -151,6 +161,8 @@ function handleDisplayFormatting(addition = "") {
 }
 
 function preHandle(button) {
+	if (button === "=" && (previousKey === "=" || previousKey === "Enter")) return;
+
 	handleButtonClick(button);
 
 	if (button === ".") handleDisplayFormatting(".");
@@ -165,6 +177,7 @@ function preHandle(button) {
 themeSwitcher.addEventListener("click", handleThemeSwitching);
 keypad.addEventListener("click", function (e) {
 	preHandle(e.target.textContent);
+	previousKey = e.target.textContent;
 });
 
 document.addEventListener("keydown", function (e) {
@@ -174,6 +187,8 @@ document.addEventListener("keydown", function (e) {
 	if (e.key === "Backspace") preHandle("DEL");
 	if (e.key === "Enter") preHandle("=");
 	else preHandle(e.key);
+
+	previousKey = e.key;
 });
 
 //START
