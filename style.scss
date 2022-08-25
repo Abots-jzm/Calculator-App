@@ -180,6 +180,14 @@ header {
 	}
 }
 
+sup {
+	font-size: 2.8rem;
+
+	@media only screen and (max-width: 500px) {
+		font-size: 2rem;
+	}
+}
+
 .keypad {
 	width: 100%;
 	margin-top: 2rem;

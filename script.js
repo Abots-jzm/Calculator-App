@@ -10,10 +10,12 @@ const previousDisplayed = document.querySelector(".display--previous");
 const currentDisplayed = document.querySelector(".display--active");
 
 let previousOperation;
+let canDelete = true;
 let storedNumber;
 let currentTheme = 1;
 let numberToBeDisplayed = "";
 let previousToBeDisplayed = previousDisplayed.textContent;
+const emptySpace = previousToBeDisplayed;
 
 //FUNCTIONS
 function setTheme(theme) {
@@ -46,11 +48,12 @@ function handleThemeSwitching() {
 }
 
 function handleDelete() {
-	numberToBeDisplayed = numberToBeDisplayed.slice(0, -1);
+	if (canDelete) numberToBeDisplayed = numberToBeDisplayed.slice(0, -1);
+	else numberToBeDisplayed = "0";
 }
 
 function handleOperation(operation) {
-	if (!previousToBeDisplayed.trim()) {
+	if (!previousToBeDisplayed.trim() || !previousOperation) {
 		storedNumber = +numberToBeDisplayed;
 		previousToBeDisplayed = `${numberToBeDisplayed} ${operation}`;
 		numberToBeDisplayed = "";
@@ -58,38 +61,56 @@ function handleOperation(operation) {
 		return;
 	}
 
-	let result;
-	switch (previousOperation) {
-		case "+":
-			result = storedNumber + +numberToBeDisplayed;
-			break;
-		case "-":
-			result = storedNumber - +numberToBeDisplayed;
-			break;
-		case "/":
-			result = storedNumber / +numberToBeDisplayed;
-			break;
-		case "x":
-			result = storedNumber * +numberToBeDisplayed;
-			break;
-	}
-
+	const result = getResult();
 	previousToBeDisplayed = `${result} ${operation}`;
 	storedNumber = result;
 	numberToBeDisplayed = "";
 	previousOperation = operation;
 }
 
+function getResult() {
+	switch (previousOperation) {
+		case "+":
+			return storedNumber + +numberToBeDisplayed;
+		case "-":
+			return storedNumber - +numberToBeDisplayed;
+		case "/":
+			return storedNumber / +numberToBeDisplayed;
+		case "x":
+			return storedNumber * +numberToBeDisplayed;
+	}
+}
+
+function handleEquals() {
+	if (!previousOperation) return;
+
+	const result = getResult();
+	previousToBeDisplayed = `${storedNumber} ${previousOperation} ${numberToBeDisplayed} =`;
+	storedNumber = result;
+	numberToBeDisplayed = result + "";
+	previousOperation = null;
+	canDelete = false;
+}
+
+function reset() {
+	console.log("shit");
+	previousOperation = null;
+	canDelete = true;
+	storedNumber = null;
+	numberToBeDisplayed = "";
+	previousToBeDisplayed = emptySpace;
+}
+
 function handleButtonClick(e) {
 	const buttonClicked = e.target.textContent;
 
-	if (numberToBeDisplayed.replace(".", "").length > 7 && buttonClicked !== "DEL") return;
+	if (numberToBeDisplayed.replace(".", "").length > 7 && ALL_DIGITS.includes(buttonClicked)) return;
 
 	if (!ALL_DIGITS.includes(buttonClicked)) {
 		if (buttonClicked === "DEL") handleDelete();
-
 		if (ALL_OPERATIONS.includes(buttonClicked)) handleOperation(buttonClicked);
-
+		if (buttonClicked === "=") handleEquals();
+		if (buttonClicked === "RESET") reset();
 		return;
 	}
 
@@ -101,6 +122,7 @@ function handleButtonClick(e) {
 	if (buttonClicked === "." && numberToBeDisplayed.includes(".")) return;
 
 	numberToBeDisplayed += buttonClicked;
+	canDelete = true;
 }
 
 function initTheme() {
@@ -121,11 +143,18 @@ function handlePreviousFormatting() {
 
 function handleDisplayFormatting(addition = "") {
 	if (!numberToBeDisplayed) numberToBeDisplayed = "0";
-	const number = +numberToBeDisplayed || 0;
-	currentDisplayed.textContent =
-		number.toLocaleString("en-US", {
-			minimumFractionDigits: numberToBeDisplayed.split(".")[1]?.length || 0,
-		}) + (currentDisplayed.textContent.includes(".") ? "" : addition);
+
+	if (numberToBeDisplayed.length > 8) {
+		const length = numberToBeDisplayed.length;
+		const number = (+numberToBeDisplayed / Math.pow(10, length - 1)).toFixed(1);
+		currentDisplayed.innerHTML = `${number} x 10<sup>${length - 1}<sup/>`;
+	} else {
+		const number = +numberToBeDisplayed || 0;
+		currentDisplayed.textContent =
+			number.toLocaleString("en-US", {
+				minimumFractionDigits: numberToBeDisplayed.split(".")[1]?.length || 0,
+			}) + (currentDisplayed.textContent.includes(".") ? "" : addition);
+	}
 }
 
 //LISTENERS
