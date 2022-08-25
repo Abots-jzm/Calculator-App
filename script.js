@@ -2,6 +2,7 @@
 
 const ALL_DIGITS = "1234567890.";
 const ALL_OPERATIONS = "x/-+";
+const KEYBOARD_BTNS = ["Backspace", "Enter", "*"];
 
 const themeSwitcher = document.querySelector(".switch--background");
 const switchHead = document.querySelector(".switch");
@@ -12,7 +13,7 @@ const currentDisplayed = document.querySelector(".display--active");
 let previousOperation;
 let storedNumber;
 let currentTheme = 1;
-let numberToBeDisplayed = "";
+let numberToBeDisplayed = "0";
 let previousToBeDisplayed = previousDisplayed.textContent;
 const emptySpace = previousToBeDisplayed;
 
@@ -93,13 +94,11 @@ function reset() {
 	console.log("shit");
 	previousOperation = null;
 	storedNumber = null;
-	numberToBeDisplayed = "";
+	numberToBeDisplayed = "0";
 	previousToBeDisplayed = emptySpace;
 }
 
-function handleButtonClick(e) {
-	const buttonClicked = e.target.textContent;
-
+function handleButtonClick(buttonClicked) {
 	if (numberToBeDisplayed.replace(".", "").length > 7 && ALL_DIGITS.includes(buttonClicked)) return;
 
 	if (!ALL_DIGITS.includes(buttonClicked)) {
@@ -152,17 +151,30 @@ function handleDisplayFormatting(addition = "") {
 	}
 }
 
-//LISTENERS
-themeSwitcher.addEventListener("click", handleThemeSwitching);
-keypad.addEventListener("click", function (e) {
-	handleButtonClick(e);
+function preHandle(button) {
+	handleButtonClick(button);
 
-	if (e.target.textContent === ".") handleDisplayFormatting(".");
+	if (button === ".") handleDisplayFormatting(".");
 	else handleDisplayFormatting();
 
 	handlePreviousFormatting();
 
-	if (e.target.textContent === "=") numberToBeDisplayed = "";
+	if (button === "=") numberToBeDisplayed = "";
+}
+
+//LISTENERS
+themeSwitcher.addEventListener("click", handleThemeSwitching);
+keypad.addEventListener("click", function (e) {
+	preHandle(e.target.textContent);
+});
+
+document.addEventListener("keydown", function (e) {
+	if (!ALL_OPERATIONS.includes(e.key) && !ALL_DIGITS.includes(e.key) && !KEYBOARD_BTNS.includes(e.key)) return;
+
+	if (e.key === "*") preHandle("x");
+	if (e.key === "Backspace") preHandle("DEL");
+	if (e.key === "Enter") preHandle("=");
+	else preHandle(e.key);
 });
 
 //START
