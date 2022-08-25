@@ -85,7 +85,8 @@ body {
 }
 
 .center {
-  height: 100vh;
+  position: fixed;
+  inset: 0;
   display: flex;
   justify-content: center;
   align-items: center;
