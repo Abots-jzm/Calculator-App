@@ -62,7 +62,8 @@ function handleOperation(operation) {
 		return;
 	}
 
-	const result = getResult();
+	let result = getResult();
+	if (isNaN(result)) result = 0;
 	previousToBeDisplayed = `${result} ${operation}`;
 	storedNumber = result;
 	numberToBeDisplayed = "";
@@ -85,7 +86,8 @@ function getResult() {
 function handleEquals() {
 	if (!previousOperation) return;
 
-	const result = getResult();
+	let result = getResult();
+	if (isNaN(result)) result = 0;
 	previousToBeDisplayed = `${storedNumber} ${previousOperation} ${numberToBeDisplayed} =`;
 	storedNumber = result;
 	backupNumber = result;
