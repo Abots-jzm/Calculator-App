@@ -139,9 +139,8 @@ function handleDisplayFormatting(addition = "") {
 	if (!numberToBeDisplayed) numberToBeDisplayed = "0";
 
 	if (numberToBeDisplayed.length > 8) {
-		const length = numberToBeDisplayed.length;
-		const number = (+numberToBeDisplayed / Math.pow(10, length - 1)).toFixed(1);
-		currentDisplayed.innerHTML = `${number} x 10<sup>${length - 1}<sup/>`;
+		const numberArr = (+numberToBeDisplayed).toExponential(1).split("e");
+		currentDisplayed.innerHTML = `${numberArr[0]} x 10<sup>${+numberArr[1]}<sup/>`;
 	} else {
 		const number = +numberToBeDisplayed || 0;
 		currentDisplayed.textContent =
